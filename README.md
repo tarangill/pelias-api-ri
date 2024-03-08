@@ -23,6 +23,9 @@ Pelias is a search engine for places worldwide, powered by open data. It turns a
 We think open data, open source, and open strategy win over proprietary solutions at any part of the stack and we want to ensure the services we offer are in line with that vision. We believe that an open geocoder improves over the long-term only if the community can incorporate truly representative local knowledge.
 </details>
 
+# Pelias API Re-Imagined
+Trying to make pelias search more versatile. By default, Pelias only searches through names of venues. There is really no way to search by a 'category', e.g. 'restaurants', or 'clinics', or 'liquor stores' etc. There is [this](https://pelias.io/milestones/categories/), but it divides every venue into broad categories like 'food' and 'recreation'.  This fork, along with [Pelias OpenStreetMaps Re-Imagined](https://github.com/tarangill/pelias-openstreetmap-ri), allows the users to search through categories with more granularity, such as "indian food" or "indian restaurants", or "theme parks" or "trampoline park", etc.
+
 # Pelias API Server
 
 This is the API server for the Pelias project. It's the service that runs to process user HTTP requests and return results as GeoJSON by querying Elasticsearch and the other Pelias services.

@@ -9,7 +9,7 @@ function isRequestTimeout(err) {
   return _.get(err, 'status') === 408;
 }
 
-function setup( peliasConfig, esclient, query, should_execute ){
+function setup( peliasConfig, esclient, query_autocomplete, should_execute, query_categories_detected ){
   const apiConfig = _.get(peliasConfig, 'api', {});
 
   function controller( req, res, next ){
@@ -27,7 +27,7 @@ function setup( peliasConfig, esclient, query, should_execute ){
     // rendering a query requires passing the `clean` object, which contains
     // validated options from query parameters, and the `res` object, since
     // some queries use the results of previous queries to Placeholder
-    const renderedQuery = query(req.clean, res);
+    const renderedQuery = req.clean?.categories_detected ? query_categories_detected(req.clean, res) : query_autocomplete(req.clean, res);
 
     // if there's no query to call ES with, skip the service
     if (_.isUndefined(renderedQuery)) {
