@@ -39,13 +39,8 @@ function setup(esclient) {
         }
       };
   
-      console.log("query: ", cat_cmd.body.query.match);
-  
       searchService( esclient, cat_cmd, function( err, docs, meta, data ){
   
-        console.log("hits:", data.hits);
-        console.log("docs:", docs);
-
         // keep tally of hit counts - compatible with new/old versions of ES
         let totalHits = 0;
         if( _.has(data, 'hits.total') ) {
@@ -62,11 +57,12 @@ function setup(esclient) {
   
           req.clean.categories_detected = cats;
         } else {
-          console.log("esta not a category a")
+
         }
         next();
       });
     } else {
+      // TODO... better error response
       throw new Error("need text");
     }
   };
