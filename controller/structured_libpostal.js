@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const Debug = require('../helper/debug');
 const debugLog = new Debug('controller:libpostal');
-const logger = require('pelias-logger').get('api');
 
 // Find field in libpostal response 
 function findField(response, field, replacementField) {
@@ -24,8 +23,7 @@ function setup(libpostalService, should_execute) {
       return next();
     }
 
-    const initialTime = debugLog.beginTimer(req);
-
+    const start = Date.now();
     libpostalService(req, (err, response) => {
       if (err) {
         // push err.message or err onto req.errors
@@ -49,14 +47,14 @@ function setup(libpostalService, should_execute) {
           req.clean.parsed_text.housenumber = house_number_field.value;
 
           // remove the first instance of the number and trim whitespace
-          req.clean.parsed_text.street = _.trim(_.replace(req.clean.parsed_text.address, req.clean.parsed_text.housenumber, ''));
+          req.clean.parsed_text.street = _.trim(replaceIgnoreCase(req.clean.parsed_text.address, req.clean.parsed_text.housenumber, ''));
 
           // If libpostal have parsed unit then add it for search
           const unit_field = findField(response, 'unit');
           if(unit_field) {
             req.clean.parsed_text.unit = unit_field.value;
             // Removing unit from street and trim
-            req.clean.parsed_text.street = _.trim(_.replace(req.clean.parsed_text.street, req.clean.parsed_text.unit, ''));
+            req.clean.parsed_text.street = _.trim(replaceIgnoreCase(req.clean.parsed_text.street, req.clean.parsed_text.unit, ''));
           }
 
         } else {
@@ -69,11 +67,12 @@ function setup(libpostalService, should_execute) {
         // the address field no longer means anything since it's been parsed, so remove it
         delete req.clean.parsed_text.address;
 
-        debugLog.push(req, {parsed_text: response});
-
+        debugLog.push(req, {
+          parsed_text: response,
+          duration: Date.now() - start
+        });
       }
-
-      debugLog.stopTimer(req, initialTime);
+      
       return next();
 
     });
@@ -81,6 +80,11 @@ function setup(libpostalService, should_execute) {
   }
 
   return controller;
+}
+
+function replaceIgnoreCase(str, match, replacement) {
+  if (!_.isString(str) || !str.length) { return ''; }
+  return str.replace(new RegExp(_.escapeRegExp(match), 'i'), replacement);
 }
 
 module.exports = setup;

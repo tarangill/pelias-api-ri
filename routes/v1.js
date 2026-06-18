@@ -332,6 +332,7 @@ function addRoutes(app, peliasConfig) {
       middleware.requestLanguage,
       controllers.place(peliasConfig.api, esclient),
       middleware.expandDocument(peliasConfig.api, esclient),
+      middleware.applyOverrides(),
       middleware.accuracy(),
       middleware.localNamingConventions(),
       middleware.mapFields(),

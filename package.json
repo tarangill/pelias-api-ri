@@ -33,7 +33,7 @@
     "url": "https://github.com/pelias/api/issues"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "@hapi/joi": "^16.0.1",
@@ -50,12 +50,12 @@
     "morgan": "^1.8.2",
     "pelias-compare": "^0.1.16",
     "pelias-config": "^5.0.1",
-    "pelias-labels": "^1.19.0",
+    "pelias-labels": "^1.21.0",
     "pelias-logger": "^1.2.0",
     "pelias-microservice-wrapper": "^1.10.0",
     "pelias-model": "^9.0.0",
     "pelias-parser": "2.2.0",
-    "pelias-query": "^11.3.0",
+    "pelias-query": "^11.4.0",
     "pelias-sorting": "^1.7.0",
     "predicates": "^2.0.0",
     "regenerate": "^1.4.0",

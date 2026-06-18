@@ -10,8 +10,8 @@ const codec = require('pelias-model').codec;
 // when performing inter-layer deduping, layers coming earlier in this list take
 // preference to those appearing later.
 const layerPreferences = [
-  'locality',
   'country',
+  'locality',
   'localadmin',
   'county',
   'region',
@@ -386,7 +386,7 @@ function layerDependentNormalization(names, layer) {
  * lowercase characters and remove diacritics and some punctuation
  */
 function normalizeString(str){
-  return removeAccents(unicode.normalize(str)).toLowerCase().split(/[ ,-]+/).join(' ');
+  return removeAccents(unicode.normalize(str)).toLowerCase().split(/[ ,-.]+/).join(' ');
 }
 
 module.exports.isDifferent = isDifferent;
